@@ -1,11 +1,15 @@
 import './App.css'
 import Api_Amiibo from './components/Api_Amiibo'
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
 
   return (
     <>
+     
       <Api_Amiibo />
+
     </>
   )
 }
