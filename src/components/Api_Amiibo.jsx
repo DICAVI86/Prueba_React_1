@@ -2,7 +2,7 @@
 import React from 'react'
 import Buscador from './Buscador';
 import { useState, useEffect } from 'react';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col, Spinner } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import logoAmiibo from '../assets/Amiibo_logo.png';
 import '../card.css'
@@ -14,7 +14,7 @@ function Api_Amiibo() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [query, setQuery] = useState("");
-    const [limit, setLimit] = useState(100);
+    const [limit, setLimit] = useState(300);
 
     //URL de la API que se ocupa para el desafio
     const url = "https://www.amiiboapi.com/api/amiibo";
@@ -38,7 +38,10 @@ function Api_Amiibo() {
         }}
 
         //Filtrado de la API para que no me muestre todo.
-        const filteredData = Array.isArray(data) ? data.filter(amiibo => amiibo.character.toLowerCase().includes(query.toLowerCase()) && amiibo.type === "Figure"):[];
+        const filteredData = Array.isArray(data) 
+        ? data.filter(amiibo => 
+            amiibo.character.toLowerCase().includes(query.toLowerCase()) &&  
+            amiibo.type === "Figure"):[];
 
         // Eliminar del render los "characters" que se duplican.
     const uniqueData = [];
@@ -55,7 +58,11 @@ function Api_Amiibo() {
     const limitedData = uniqueData.slice(0, limit);
 
         if (loading) {
-            return ( <div>loading</div>)
+            return ( 
+                <div>
+                    <Spinner animation="border" variant="secondary"/>
+                    <div>loading</div>
+                </div>)
         }
 
         if (error) {
@@ -78,6 +85,7 @@ function Api_Amiibo() {
                 <Buscador 
                     query={query}
                     setQuery={setQuery}
+                    placeholder="Buscar Personaje"
                 />
             </div>
             
