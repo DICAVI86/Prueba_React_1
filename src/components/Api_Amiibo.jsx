@@ -2,7 +2,7 @@
 import React from 'react'
 import Buscador from './Buscador';
 import { useState, useEffect } from 'react';
-import { Card, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Card, Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import logoAmiibo from '../assets/Amiibo_logo.png';
 import '../card.css'
@@ -14,7 +14,8 @@ function Api_Amiibo() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [query, setQuery] = useState("");
-    const [limit, setLimit] = useState(300);
+    const [limit, setLimit] = useState(200);
+    const [reverseOrder, setReverseOrder] = useState(false);
 
     //URL de la API que se ocupa para el desafio
     const url = "https://www.amiiboapi.com/api/amiibo";
@@ -36,6 +37,12 @@ function Api_Amiibo() {
             setError(error);
             setLoading(false);
         }}
+
+        // Función para cambiar el orden de las cards
+    const toggleOrder = () => {
+        setReverseOrder(!reverseOrder); // Cambia el estado de orden inverso
+        setData([...data].reverse()); // Invierte el orden de las cards
+  };
 
         //Filtrado de la API para que no me muestre todo.
         const filteredData = Array.isArray(data) 
@@ -88,6 +95,12 @@ function Api_Amiibo() {
                     placeholder="Buscar Personaje"
                 />
             </div>
+            <Button 
+                    className='boton'
+                    variant="primary" 
+                    onClick={toggleOrder}>
+                {reverseOrder ? "Primero a Ultimo" : "Ultimo a Primero"}
+                </Button>
             
             <Row>
                 {limitedData.map((amiibo) => (
